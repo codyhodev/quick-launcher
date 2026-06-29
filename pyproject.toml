@@ -1,0 +1,27 @@
+[project]
+name = "quick-launcher"
+version = "0.1.0"
+description = "Linux X11 system tray app for quick-launching applications or scripts"
+requires-python = ">=3.12"
+dependencies = [
+    "PyQt5>=5.15",
+    "PyYAML>=6.0",
+]
+
+[project.scripts]
+quick-launcher = "quick_launcher.app:main"
+
+[build-system]
+requires = ["setuptools>=75"]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+
+[dependency-groups]
+dev = [
+    "pytest>=9.1.1",
+]
