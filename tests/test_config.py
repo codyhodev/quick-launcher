@@ -106,6 +106,35 @@ def test_load_config_with_submenus():
         os.unlink(path)
 
 
+def test_load_config_default_font_size():
+    data = {"launchers": [{"name": "App", "command": "app"}]}
+    with tempfile.NamedTemporaryFile(mode="w", suffix=".yaml", delete=False) as f:
+        yaml.dump(data, f)
+        path = f.name
+
+    try:
+        config = load_config(path)
+        assert config.font_size == 14
+    finally:
+        os.unlink(path)
+
+
+def test_load_config_custom_font_size():
+    data = {
+        "font_size": 18,
+        "launchers": [{"name": "App", "command": "app"}],
+    }
+    with tempfile.NamedTemporaryFile(mode="w", suffix=".yaml", delete=False) as f:
+        yaml.dump(data, f)
+        path = f.name
+
+    try:
+        config = load_config(path)
+        assert config.font_size == 18
+    finally:
+        os.unlink(path)
+
+
 def test_load_config_with_separator():
     data = {
         "launchers": [

@@ -17,39 +17,39 @@ def create_rocket_icon() -> QIcon:
     painter = QPainter(pixmap)
     painter.setRenderHint(QPainter.RenderHint.Antialiasing)
     painter.setPen(Qt.PenStyle.NoPen)
-    painter.setBrush(QColor("#3498db"))
+    painter.setBrush(QColor("#ffffff"))
 
     cx, cy = ICON_SIZE // 2, ICON_SIZE // 2
-    w, h = 16, 32
+    w, h = 20, 44
     left, top = cx - w // 2, cy - h // 2
 
-    painter.drawRoundedRect(left, top + h // 3, w, h * 2 // 3, 2, 2)
+    painter.drawRoundedRect(left, top + h // 3, w, h * 2 // 3, 3, 3)
 
     nose = QPolygon([
         QPoint(cx, top),
-        QPoint(cx - 10, top + h // 3),
-        QPoint(cx + 10, top + h // 3),
+        QPoint(cx - 12, top + h // 3),
+        QPoint(cx + 12, top + h // 3),
     ])
     painter.drawPolygon(nose)
 
     fin_left = QPolygon([
-        QPoint(left - 2, top + h - 8),
-        QPoint(left - 2, top + h + 4),
-        QPoint(left + 6, top + h - 4),
+        QPoint(left - 4, top + h - 10),
+        QPoint(left - 4, top + h + 4),
+        QPoint(left + 8, top + h - 6),
     ])
     fin_right = QPolygon([
-        QPoint(left + w + 2, top + h - 8),
-        QPoint(left + w + 2, top + h + 4),
-        QPoint(left + w - 6, top + h - 4),
+        QPoint(left + w + 4, top + h - 10),
+        QPoint(left + w + 4, top + h + 4),
+        QPoint(left + w - 8, top + h - 6),
     ])
     painter.drawPolygon(fin_left)
     painter.drawPolygon(fin_right)
 
     painter.setBrush(QColor("#e74c3c"))
     flame = QPolygon([
-        QPoint(cx - 4, top + h + 4),
-        QPoint(cx + 4, top + h + 4),
-        QPoint(cx, top + h + 14),
+        QPoint(cx - 6, top + h + 4),
+        QPoint(cx + 6, top + h + 4),
+        QPoint(cx, top + h + 18),
     ])
     painter.drawPolygon(flame)
 
@@ -60,7 +60,7 @@ def create_rocket_icon() -> QIcon:
 class TrayApp(QSystemTrayIcon):
     def __init__(self, config: Config) -> None:
         super().__init__()
-        menu = build_menu(config.launchers, config.terminal_cmd)
+        menu = build_menu(config.launchers, config.terminal_cmd, config.font_size)
         quit_action = menu.addAction("Quit")
         quit_action.triggered.connect(self._quit)
         self.setContextMenu(menu)

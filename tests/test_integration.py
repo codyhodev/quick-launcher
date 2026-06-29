@@ -108,6 +108,24 @@ def test_tray_app_with_advanced_config(qapp):
     assert actions[3].text() == "Quit"
 
 
+def test_config_to_menu_with_font_size(qapp):
+    data = {
+        "font_size": 16,
+        "launchers": [{"name": "App", "command": "app"}],
+    }
+    with tempfile.NamedTemporaryFile(mode="w", suffix=".yaml", delete=False) as f:
+        yaml.dump(data, f)
+        path = f.name
+
+    try:
+        config = load_config(path)
+        menu = build_menu(config.launchers, font_size=config.font_size)
+        assert config.font_size == 16
+        assert menu.font().pointSize() == 16
+    finally:
+        os.unlink(path)
+
+
 def test_config_to_menu_with_submenu(qapp):
     data = {
         "launchers": [

@@ -79,6 +79,12 @@ def test_build_menu_with_submenu(qapp):
     assert sub_actions[1].text() == "Terminal"
 
 
+def test_build_menu_with_custom_font_size(qapp):
+    launchers = [LauncherEntry(name="App", command="app")]
+    menu = build_menu(launchers, font_size=20)
+    assert menu.font().pointSize() == 20
+
+
 def test_build_menu_nested_submenus(qapp):
     launchers = [
         LauncherEntry(
