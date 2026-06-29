@@ -4,7 +4,7 @@ from PyQt5.QtCore import QPoint, Qt
 from PyQt5.QtGui import QColor, QIcon, QPainter, QPixmap, QPolygon
 from PyQt5.QtWidgets import QApplication, QSystemTrayIcon
 
-from quick_launcher.config import LauncherEntry, default_config_path, load_config
+from quick_launcher.config import default_config_path, load_config
 from quick_launcher.menu import build_menu
 
 
@@ -62,8 +62,8 @@ def main() -> None:
     app.setQuitOnLastWindowClosed(False)
 
     config_path = default_config_path()
-    launchers = load_config(config_path)
-    menu = build_menu(launchers)
+    config = load_config(config_path)
+    menu = build_menu(config.launchers, config.terminal_cmd)
 
     quit_action = menu.addAction("Quit")
     quit_action.triggered.connect(app.quit)
