@@ -18,8 +18,7 @@ Linux X11 托盘应用程序, 用于快速启动应用程序或脚本.
     __main__.py          # python -m quick_launcher
     app.py               # QApplication, QSystemTrayIcon, QPainter icon, main()
     config.py            # YAML config → LauncherEntry
-    menu.py              # LauncherEntry list → QMenu
-    runner.py            # QProcess command execution
+    menu.py              # LauncherEntry list → QMenu + QProcess execution
 /tests/
     test_config.py
     test_menu.py
