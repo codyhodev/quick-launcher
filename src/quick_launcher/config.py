@@ -19,6 +19,7 @@ class LauncherEntry:
 class Config:
     terminal_cmd: str = "gnome-terminal"
     font_size: int = 14
+    quit_label: str = "Quit"
     launchers: list[LauncherEntry] = field(default_factory=list)
 
 
@@ -45,5 +46,6 @@ def load_config(path: str | None = None) -> Config:
     return Config(
         terminal_cmd=data.get("terminal_cmd", "gnome-terminal"),
         font_size=data.get("font_size", 14),
+        quit_label=data.get("quit_label", "Quit"),
         launchers=[_parse_entry(item) for item in data.get("launchers", [])],
     )

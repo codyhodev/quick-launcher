@@ -135,6 +135,35 @@ def test_load_config_custom_font_size():
         os.unlink(path)
 
 
+def test_load_config_default_quit_label():
+    data = {"launchers": [{"name": "App", "command": "app"}]}
+    with tempfile.NamedTemporaryFile(mode="w", suffix=".yaml", delete=False) as f:
+        yaml.dump(data, f)
+        path = f.name
+
+    try:
+        config = load_config(path)
+        assert config.quit_label == "Quit"
+    finally:
+        os.unlink(path)
+
+
+def test_load_config_custom_quit_label():
+    data = {
+        "quit_label": "Exit",
+        "launchers": [{"name": "App", "command": "app"}],
+    }
+    with tempfile.NamedTemporaryFile(mode="w", suffix=".yaml", delete=False) as f:
+        yaml.dump(data, f)
+        path = f.name
+
+    try:
+        config = load_config(path)
+        assert config.quit_label == "Exit"
+    finally:
+        os.unlink(path)
+
+
 def test_load_config_with_separator():
     data = {
         "launchers": [

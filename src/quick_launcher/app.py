@@ -61,7 +61,7 @@ class TrayApp(QSystemTrayIcon):
     def __init__(self, config: Config) -> None:
         super().__init__()
         menu = build_menu(config.launchers, config.terminal_cmd, config.font_size)
-        quit_action = menu.addAction("Quit")
+        quit_action = menu.addAction(config.quit_label)
         quit_action.triggered.connect(self._quit)
         self.setContextMenu(menu)
         self.setIcon(create_rocket_icon())
