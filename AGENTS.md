@@ -9,6 +9,18 @@ Linux X11 托盘应用程序, 用于快速启动应用程序或脚本.
 - **Tray library:** PyQt5
 - **Test runner:** pytest (`QT_QPA_PLATFORM=offscreen` for headless)
 
+## System dependencies
+
+### Runtime (Debian/Ubuntu)
+```bash
+sudo apt install libqt5widgets5 libqt5gui5 libqt5dbus5 libxcb-xinerama0
+```
+
+### Testing (headless)
+```bash
+sudo apt install xvfb
+```
+
 ## Project structure
 
 ```

@@ -2,6 +2,16 @@
 
 Linux X11 系统托盘应用，通过静态 YAML 配置快速启动应用程序或脚本。
 
+## 系统依赖
+
+```bash
+# Debian/Ubuntu
+sudo apt install libqt5widgets5 libqt5gui5 libqt5dbus5 libxcb-xinerama0
+
+# headless 测试环境
+sudo apt install xvfb
+```
+
 ## 安装
 
 ```bash
