@@ -4,7 +4,7 @@ from PyQt5.QtCore import QPoint, Qt
 from PyQt5.QtGui import QColor, QIcon, QPainter, QPixmap, QPolygon
 from PyQt5.QtWidgets import QApplication, QSystemTrayIcon
 
-from quick_launcher.config import default_config_path, load_config
+from quick_launcher.config import Config, default_config_path, load_config
 from quick_launcher.menu import build_menu
 
 
@@ -57,20 +57,24 @@ def create_rocket_icon() -> QIcon:
     return QIcon(pixmap)
 
 
+class TrayApp(QSystemTrayIcon):
+    def __init__(self, config: Config) -> None:
+        super().__init__()
+        menu = build_menu(config.launchers, config.terminal_cmd)
+        quit_action = menu.addAction("Quit")
+        quit_action.triggered.connect(self._quit)
+        self.setContextMenu(menu)
+        self.setIcon(create_rocket_icon())
+
+    def _quit(self) -> None:
+        QApplication.instance().quit()
+
+
 def main() -> None:
     app = QApplication(sys.argv)
     app.setQuitOnLastWindowClosed(False)
 
-    config_path = default_config_path()
-    config = load_config(config_path)
-    menu = build_menu(config.launchers, config.terminal_cmd)
-
-    quit_action = menu.addAction("Quit")
-    quit_action.triggered.connect(app.quit)
-
-    tray = QSystemTrayIcon()
-    tray.setIcon(create_rocket_icon())
-    tray.setContextMenu(menu)
+    tray = TrayApp(load_config())
     tray.show()
 
     sys.exit(app.exec())

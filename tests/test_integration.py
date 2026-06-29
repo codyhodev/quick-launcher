@@ -61,6 +61,53 @@ def test_config_to_menu_with_quit_action(qapp):
         os.unlink(path)
 
 
+def test_tray_app_menu_structure(qapp):
+    from quick_launcher.app import TrayApp
+    from quick_launcher.config import Config, LauncherEntry
+
+    cfg = Config(
+        launchers=[
+            LauncherEntry(name="Terminal", command="alacritty"),
+            LauncherEntry(name="Browser", command="firefox"),
+        ]
+    )
+    tray = TrayApp(cfg)
+    actions = tray.contextMenu().actions()
+
+    assert len(actions) == 3  # 2 launchers + Quit
+    assert actions[0].text() == "Terminal"
+    assert actions[1].text() == "Browser"
+    assert actions[2].text() == "Quit"
+
+
+def test_tray_app_with_advanced_config(qapp):
+    from quick_launcher.app import TrayApp
+    from quick_launcher.config import Config, LauncherEntry
+
+    cfg = Config(
+        terminal_cmd="alacritty",
+        launchers=[
+            LauncherEntry(
+                name="Dev",
+                items=[
+                    LauncherEntry(name="Editor", command="code", terminal=True),
+                ],
+            ),
+            LauncherEntry(type="separator"),
+            LauncherEntry(name="Browser", command="firefox"),
+        ],
+    )
+    tray = TrayApp(cfg)
+    actions = tray.contextMenu().actions()
+
+    assert len(actions) == 4  # Dev submenu + separator + Browser + Quit
+    assert actions[0].text() == "Dev"
+    assert actions[0].menu() is not None
+    assert actions[1].isSeparator()
+    assert actions[2].text() == "Browser"
+    assert actions[3].text() == "Quit"
+
+
 def test_config_to_menu_with_submenu(qapp):
     data = {
         "launchers": [
